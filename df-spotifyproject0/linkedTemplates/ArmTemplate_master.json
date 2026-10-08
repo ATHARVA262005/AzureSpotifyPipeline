@@ -1,0 +1,84 @@
+{
+	"$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+	"contentVersion": "1.0.0.0",
+	"parameters": {
+		"factoryName": {
+			"type": "string",
+			"metadata": "Data Factory name",
+			"defaultValue": "df-spotifyproject0"
+		},
+		"dlspotifyproject_accountKey": {
+			"type": "secureString",
+			"metadata": "Secure string for 'accountKey' of 'dlspotifyproject'"
+		},
+		"sqlspotifyproject_password": {
+			"type": "secureString",
+			"metadata": "Secure string for 'password' of 'sqlspotifyproject'"
+		},
+		"dlspotifyproject_properties_typeProperties_url": {
+			"type": "string",
+			"defaultValue": "https://storagespotifyproject0.dfs.core.windows.net/"
+		},
+		"sqlspotifyproject_properties_typeProperties_server": {
+			"type": "string",
+			"defaultValue": "serverspotifyproject.database.windows.net"
+		},
+		"sqlspotifyproject_properties_typeProperties_database": {
+			"type": "string",
+			"defaultValue": "dbspotifyproject"
+		},
+		"sqlspotifyproject_properties_typeProperties_userName": {
+			"type": "string",
+			"defaultValue": "adminSpotifyProject"
+		},
+		"containerUri": {
+			"type": "string",
+			"metadata": "URI to storage account containing linked ARM templates"
+		},
+		"containerSasToken": {
+			"type": "string",
+			"metadata": "Sas token to storage account containing linked ARM templates"
+		}
+	},
+	"variables": {
+		"factoryId": "[concat('Microsoft.DataFactory/factories/', parameters('factoryName'))]"
+	},
+	"resources": [
+		{
+			"name": "df-spotifyproject0_ArmTemplate_0",
+			"type": "Microsoft.Resources/deployments",
+			"apiVersion": "2024-03-01",
+			"properties": {
+				"mode": "incremental",
+				"templateLink": {
+					"uri": "[concat(parameters('containerUri'), '/ArmTemplate_0.json', parameters('containerSasToken'))]",
+					"contentVersion": "1.0.0.0"
+				},
+				"parameters": {
+					"factoryName": {
+						"value": "[parameters('factoryName')]"
+					},
+					"dlspotifyproject_accountKey": {
+						"value": "[parameters('dlspotifyproject_accountKey')]"
+					},
+					"sqlspotifyproject_password": {
+						"value": "[parameters('sqlspotifyproject_password')]"
+					},
+					"dlspotifyproject_properties_typeProperties_url": {
+						"value": "[parameters('dlspotifyproject_properties_typeProperties_url')]"
+					},
+					"sqlspotifyproject_properties_typeProperties_server": {
+						"value": "[parameters('sqlspotifyproject_properties_typeProperties_server')]"
+					},
+					"sqlspotifyproject_properties_typeProperties_database": {
+						"value": "[parameters('sqlspotifyproject_properties_typeProperties_database')]"
+					},
+					"sqlspotifyproject_properties_typeProperties_userName": {
+						"value": "[parameters('sqlspotifyproject_properties_typeProperties_userName')]"
+					}
+				}
+			},
+			"dependsOn": []
+		}
+	]
+}
