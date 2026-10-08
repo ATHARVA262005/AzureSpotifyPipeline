@@ -11,6 +11,12 @@
 						"dependencyConditions": [
 							"Succeeded"
 						]
+					},
+					{
+						"activity": "current",
+						"dependencyConditions": [
+							"Succeeded"
+						]
 					}
 				],
 				"policy": {
@@ -59,7 +65,15 @@
 				"outputs": [
 					{
 						"referenceName": "parquet_dynamic",
-						"type": "DatasetReference"
+						"type": "DatasetReference",
+						"parameters": {
+							"container": "bronze",
+							"folder": "Users",
+							"file": {
+								"value": "@concat(pipeline().parameters.table,'_',variables('current'))",
+								"type": "Expression"
+							}
+						}
 					}
 				]
 			},
@@ -97,6 +111,23 @@
 						}
 					}
 				}
+			},
+			{
+				"name": "current",
+				"type": "SetVariable",
+				"dependsOn": [],
+				"policy": {
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"variableName": "current",
+					"value": {
+						"value": "@utcNow()",
+						"type": "Expression"
+					}
+				}
 			}
 		],
 		"parameters": {
@@ -107,6 +138,11 @@
 				"type": "String"
 			},
 			"cdc": {
+				"type": "String"
+			}
+		},
+		"variables": {
+			"current": {
 				"type": "String"
 			}
 		},
