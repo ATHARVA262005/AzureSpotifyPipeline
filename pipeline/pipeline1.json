@@ -31,7 +31,7 @@
 					"source": {
 						"type": "AzureSqlSource",
 						"sqlReaderQuery": {
-							"value": "SELECT\n    *\nFROM\n    @{pipeline().parameters.schema}.@{pipeline().parameters.table}\nWHERE\n    @{pipeline().parameters.cdc} > '@{activity('last_cdc').output.value[0].cdc}'",
+							"value": "SELECT\n    *\nFROM\n    @{pipeline().parameters.schema}.@{pipeline().parameters.table}\nWHERE\n    @{pipeline().parameters.cdc} > @{if(empty(pipeline().parameters.from_date),activity('last_cdc').output.value[0].cdc,pipeline().parameters.from_date)}",
 							"type": "Expression"
 						},
 						"queryTimeout": "02:00:00",
@@ -173,7 +173,10 @@
 											"value": "@pipeline().parameters.table",
 											"type": "Expression"
 										},
-										"file": "@concat(pipeline().parameters.table,'_',variables('current'))@concat(pipeline().parameters.table,'_',variables('current'))"
+										"file": {
+											"value": "@concat(pipeline().parameters.table,'_',variables('current'))",
+											"type": "Expression"
+										}
 									}
 								},
 								"enableLogging": false,
@@ -207,7 +210,7 @@
 									{
 										"type": "Query",
 										"text": {
-											"value": "SELECT \n    MAX(@{pipeline().parameters.cdc}) as cdc\nFROM\n    @{pipeline().parameters.table}.@{pipeline().parameters.table}",
+											"value": "SELECT \n    MAX(@{pipeline().parameters.cdc}) as cdc\nFROM\n    @{pipeline().parameters.schema}.@{pipeline().parameters.table}",
 											"type": "Expression"
 										}
 									}
@@ -241,7 +244,7 @@
 										{
 											"name": "cdc",
 											"value": {
-												"value": "@activity('AzureSQLToLake').output.resultSet[0].rows[0].cdc",
+												"value": "@activity('MaxCDC').output.resultSets[0].rows[0].cdc",
 												"type": "Expression"
 											}
 										}
@@ -256,12 +259,12 @@
 									}
 								},
 								"sink": {
-									"type": "ParquetSink",
+									"type": "JsonSink",
 									"storeSettings": {
 										"type": "AzureBlobFSWriteSettings"
 									},
 									"formatSettings": {
-										"type": "ParquetWriteSettings"
+										"type": "JsonWriteSettings"
 									}
 								},
 								"enableStaging": false
@@ -279,7 +282,7 @@
 							],
 							"outputs": [
 								{
-									"referenceName": "parquet_dynamic",
+									"referenceName": "json_dynamic",
 									"type": "DatasetReference",
 									"parameters": {
 										"container": "bronze",
@@ -302,6 +305,9 @@
 			},
 			"cdc": {
 				"type": "String"
+			},
+			"from_date": {
+				"type": "string"
 			}
 		},
 		"variables": {
