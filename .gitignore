@@ -1,0 +1,65 @@
+# ==========================================
+# Databricks Asset Bundles (DAB) & Deployment
+# ==========================================
+.databricks/
+.bundle/
+bundle/
+PROD/
+dist/
+build/
+*.egg-info/
+*.whl
+manifest.mf
+*/manifest.mf
+
+# ==========================================
+# Cloud Export & Infrastructure Inventory
+# ==========================================
+Azureresources.csv
+*.pem
+*.key
+*.pfx
+*.cer
+*.crt
+
+# ==========================================
+# Python & Virtual Environments
+# ==========================================
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+.venv/
+env/
+venv/
+ENV/
+.env
+.env.*
+.pytest_cache/
+
+# ==========================================
+# IDEs & Editors
+# ==========================================
+.vscode/*
+!.vscode/extensions.json
+.idea/
+*.swp
+*.swo
+
+# ==========================================
+# OS Generated Files
+# ==========================================
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# ==========================================
+# Temporary & Scratch
+# ==========================================
+scratch/**
+!scratch/README.md
+**/explorations/**
+!**/explorations/README.md
+*.log
+*.tmp

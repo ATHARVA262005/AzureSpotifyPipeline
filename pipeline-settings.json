@@ -1,0 +1,20 @@
+{
+  "id": "b0b074a1-82c5-4ac0-bb0d-2690b173d87d",
+  "pipeline_type": "WORKSPACE",
+  "name": "gold_pipeline",
+  "libraries": [
+    {
+      "glob": {
+        "include": "/Workspace/Users/atharvaralegankar2005@gmail.com/spotify_dab/src/gold/gold_pipeline/transformations/**"
+      }
+    }
+  ],
+  "schema": "gold",
+  "continuous": false,
+  "development": false,
+  "photon": true,
+  "channel": "CURRENT",
+  "catalog": "spotify_cata",
+  "serverless": true,
+  "root_path": "/Workspace/Users/atharvaralegankar2005@gmail.com/spotify_dab/src/gold/gold_pipeline"
+}
